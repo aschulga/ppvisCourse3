@@ -1,5 +1,6 @@
 package Model;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -19,6 +20,15 @@ public class Base {
     {
         return listArrayList;
     }
+
+    OptionsCarriage carriage = new OptionsCarriage(20, 70, Color.black);
+
+    public OptionsCarriage getCarriage()
+    {
+        return carriage;
+    }
+
+
 
     public void newListRectangle(int nextY)
     {
