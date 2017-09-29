@@ -1,5 +1,5 @@
 import Controller.Controller;
-import Model.Base;
+import Model.Document;
 import View.MyFrame;
 
 import java.awt.*;
@@ -10,20 +10,10 @@ import java.awt.*;
 public class Main {
     public static void main(String args[])
     {
-        Base base = new Base();
+        Document base = new Document();
         Controller controller = new Controller(base);
 
         MyFrame frame = new MyFrame("Текстовый редактор", new Dimension(700,700),controller);
         frame.init();
-
-        /*
-
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);*/
-
     }
-
-
-
 }

@@ -6,10 +6,12 @@ import java.util.ArrayList;
 /**
  * Created by Asus on 03.09.2017.
  */
-public class Base {
+public class Document {
 
-    public ArrayList<ArrayList<OptionsLetter>> listArrayList = new ArrayList<ArrayList<OptionsLetter>>();
-    public ArrayList<OptionsRectangle> listRectangle = new ArrayList<OptionsRectangle>();
+    private ArrayList<ArrayList<OptionsLetter>> listArrayList = new ArrayList<ArrayList<OptionsLetter>>();
+    private ArrayList<OptionsRectangle> listRectangle = new ArrayList<OptionsRectangle>();
+    private int startPageX = 20, startPageY = 70, zero = 0;
+    private OptionsCarriage carriage = new OptionsCarriage(startPageX, startPageY, Color.black);
 
     public ArrayList<OptionsRectangle> getListRectangle()
     {
@@ -21,20 +23,16 @@ public class Base {
         return listArrayList;
     }
 
-    OptionsCarriage carriage = new OptionsCarriage(20, 70, Color.black);
-
     public OptionsCarriage getCarriage()
     {
         return carriage;
     }
 
-
-
     public void newListRectangle(int nextY)
     {
         for(int i = 0; i <= nextY; i++);
         {
-            listRectangle.add(new OptionsRectangle(0,0,0,0,0));
+            listRectangle.add(new OptionsRectangle(zero,zero,zero,zero,zero));
         }
 
     }
@@ -43,37 +41,5 @@ public class Base {
     {
         listArrayList.add(new ArrayList<OptionsLetter>());
     }
-
-
-
-
-  /*  public void addArrayList(ArrayList<OptionsLetter> listletter)
-    {
-        listArrayList.add(listLetter);
-    }
-
-    public int sizeArrayList()
-    {
-        return listArrayList.size();
-    }
-
-    public ArrayList<OptionsLetter> getArrayListObject(int i)
-    {
-        return listArrayList.get(i);
-    }
-
-    public int size()
-    {
-        return listLetter.size();
-    }
-
-    public OptionsLetter get(int i)
-    {
-        return listLetter.get(i);
-    }
-
-    */
-
-
 
 }

@@ -30,19 +30,9 @@ public class OptionsLetter {
         return width;
     }
 
-    public void setWidth(int width)
-    {
-        this.width = width;
-    }
-
     public String getTypeFont()
     {
         return typeFont;
-    }
-
-    public void setTypeFont(String typeFont)
-    {
-        this.typeFont = typeFont;
     }
 
     public int getFont()
@@ -50,29 +40,14 @@ public class OptionsLetter {
         return font;
     }
 
-    public void setFont(int font)
-    {
-        this.font = font;
-    }
-
     public int getSize()
     {
         return size;
     }
 
-    public void setSize(int size)
-    {
-        this.size = size;
-    }
-
     public String getLetter()
     {
         return letter;
-    }
-
-    public void setLetter(String letter)
-    {
-        this.letter = letter;
     }
 
     public int getX()
@@ -99,10 +74,4 @@ public class OptionsLetter {
     {
         return height;
     }
-
-    public void setHeight(int height)
-    {
-        this.height = height;
-    }
-
 }

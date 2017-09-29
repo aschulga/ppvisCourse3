@@ -1,6 +1,5 @@
-package Model;
+package Controller;
 
-import Controller.Controller;
 import View.MyFrame;
 
 import java.awt.*;
@@ -21,12 +20,10 @@ public class MyThreads implements Runnable{
         this.controller = controller;
         thread = new Thread(this);
         thread.start();
-
     }
 
     public void run()
     {
-
         while(true) {
             if (isWhite) {
                 controller.setColorCarriage(frame.getFrame().getBackground());
@@ -36,14 +33,12 @@ public class MyThreads implements Runnable{
                 isWhite = true;
             }
 
-
-        try{
+            try{
             Thread.sleep(450);
-        }catch (InterruptedException e)
-        {
-            e.printStackTrace();
-        }
-
+            }catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
         }
     }
 }

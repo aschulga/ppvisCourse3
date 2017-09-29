@@ -1,6 +1,6 @@
 package Controller;
 
-import Model.Base;
+import Model.Document;
 import Model.OptionsLetter;
 import Model.OptionsRectangle;
 import View.MyFrame;
@@ -12,37 +12,61 @@ import java.util.ArrayList;
  * Created by Asus on 03.09.2017.
  */
 public class Controller {
-    private Base base;
+    private Document document;
     private int height;
-    private int max;
+    private int max = 0;
     private FontMetrics fm;
-    int nextX = 0;
-    int nextY = 0;
-    //int cd = 0;
+    private Graphics g;
+    private int startPageX = 20, startPageY = 70, zero = 0, one = 1, two = 2;
 
-    //OptionsCarriage carriage = new OptionsCarriage(20, 70);
-
-    //int coordX=20, coordY=70;
-
-
-    public Controller(Base base)
+    public Controller(Document document)
     {
-        this.base = base;
+        this.document = document;
+    }
+
+    public Color getColorCarriage()
+    {
+        return document.getCarriage().getColor();
+    }
+
+    public void setColorCarriage(Color color)
+    {
+        document.getCarriage().setColor(color);
+    }
+
+    public int getXCarriage()
+    {
+        return document.getCarriage().getX();
+    }
+
+    public int getYCarriage()
+    {
+        return document.getCarriage().getY();
+    }
+
+    public void setXCarriage(int x)
+    {
+        document.getCarriage().setX(x);
+    }
+
+    public void setYCarriage(int y)
+    {
+        document.getCarriage().setY(y);
     }
 
     public ArrayList<OptionsRectangle> getListRectangle()
     {
-        return base.getListRectangle();
+        return document.getListRectangle();
     }
 
     public void newListRectangle(int nextY)
     {
-        base.newListRectangle(nextY);
+        document.newListRectangle(nextY);
     }
 
     public ArrayList<ArrayList<OptionsLetter>> getListArrayList()
     {
-        return base.getListArrayList();
+        return document.getListArrayList();
     }
 
     public void setHeightLetter(int height)
@@ -57,7 +81,7 @@ public class Controller {
 
     public void newListLetter(int nextY)
     {
-        base.newListLetter(nextY);
+        document.newListLetter(nextY);
     }
 
     public ArrayList<OptionsLetter> getElementArrayList(int nextY)
@@ -65,160 +89,97 @@ public class Controller {
         return getListArrayList().get(nextY);
     }
 
-    public int getNextX()
+    public int getHeightList(ArrayList<OptionsLetter> list)
     {
-        return nextX;
+        max = zero;
+
+        for(int i = 0; i < list.size(); i++)
+        {
+            if(list.get(i).getHeight()>max)
+            {
+                max = list.get(i).getHeight();
+            }
+        }
+        return max;
     }
 
-    public void setNextX(int nextX)
+    public void setGraphics(Graphics g)
     {
-        this.nextX = nextX;
+        this.g = g;
     }
 
-    public int getNextY()
+    public int getN(ArrayList<OptionsRectangle> listRectangle, int nextY)
     {
-        return nextY;
+        int nextX = zero;
+        ArrayList<OptionsLetter> list = getListArrayList().get(nextY);
+        nextX = zero;
+        for (int j = 0; j < list.size(); j++) {
+            if ((list.get(j).getX()) >= listRectangle.get(nextY).getX()) {
+                nextX++;
+            }
+        }
+        return  nextX;
     }
-
-    public void setNextY(int nextY)
-    {
-        this.nextY = nextY;
-    }
-
-
-
-
-   /* public void setCarriageX(int coordX)
-    {
-        this.carriage.setX(coordX);
-    }
-
-    public int getCarriageX()
-    {
-        return carriage.getX();
-    }
-
-    public void setCarriageY(int coordY)
-    {
-        this.carriage.setY(coordY);
-    }
-
-    public int getCarriageY()
-    {
-        return carriage.getY();
-    }*/
-
 
     public void addListLetter(int nextX, OptionsLetter letter, ArrayList<OptionsLetter> list)
     {
         for(int i = 0; i < nextX; i++) {
 
-            list.get(list.size() - 1 - i).setX(list.get(list.size() - 1 - i).getX() + letter.getWidth());
+            list.get(list.size() - one - i).setX(list.get(list.size() - one - i).getX() + letter.getWidth());
         }
 
-        if(list.size()!=0)
+        if(list.size() != zero)
             list.add(list.size()-nextX,letter);
         else
             list.add(letter);
     }
 
-  /*  public void gets()
-    {
+    public int getSelection(ArrayList<OptionsRectangle> listRectangle, MyFrame frame, int nextX, int nextY, int number) {
 
+        int h = 0, w = 0, s =0;
+        int coordX = listRectangle.get(nextY).getX();
 
+        g.setFont(new Font(frame.getPanelList().getType(),frame.getPanelList().getFont(),frame.getPanelList().getSize()));
 
-        if(nextY!=0)
-        {
-            changeParametrs(nextY, getListArrayList());
+        fm = g.getFontMetrics();
 
-            coordY = getElementArrayList(nextY - 1).get(0).getY() + getMaxHeightList(getElementArrayList(nextY));
-            carriage.setY(coordY);
-        }
+        ArrayList<OptionsLetter> list = getListArrayList().get(nextY);
 
-        getListRectangle().get(nextY).setX(0);
-        getListRectangle().get(nextY).setY(0);
-        getListRectangle().get(nextY).setHeight(0);
-        getListRectangle().get(nextY).setWidth(0);
+        if (number == two)
+            nextX = zero;
 
-    }*/
+        for (int i = 0; i < list.size(); i++) {
 
-    public void setFm(FontMetrics fm)
-    {
-        this.fm = fm;
-    }
-
-    public FontMetrics getFm()
-    {
-        return fm;
-    }
-
-    public void getSelection(OptionsRectangle listRectangle, ArrayList<OptionsLetter> list, MyFrame frame, int nextX)
-    {
-        int w = 0, h = 0;
-        int coordX = listRectangle.getX();
-        int s = 0;
-        int t = nextX;
-
-
-        for(int j = 0; j < list.size(); j++)
-        {
-
-            if((list.get(j).getX())>=listRectangle.getX() && (list.get(j).getX())<(listRectangle.getX()+listRectangle.getWidth())) {
+            if ((list.get(i).getX()) >= listRectangle.get(nextY).getX() && (list.get(i).getX()) < (listRectangle.get(nextY).getX() + listRectangle.get(nextY).getWidth())) {
                 s++;
             }
+            listRectangle.get(nextY).setSize(s);
 
-        }
-
-        for(int i = 0; i < list.size(); i++)
-        {
-
-            System.out.println("letter "+list.get(i).getLetter());
-            if((list.get(i).getX())>=listRectangle.getX() && s>0) {
-
-                w = getFm().stringWidth(list.get(i).getLetter());
-                h = getFm().getHeight();
-
-                if (list.get(i).getX() != 20) {
-
-
-                    nextX--;
-
-                    addListLetter(nextX, new OptionsLetter(list.get(i).getLetter(), coordX, list.get(i).getY(), frame.getPanelList().getType(), frame.getPanelList().getFont(), frame.getPanelList().getSize(), w, h),
-                            list);
-
-                    deleteElement(nextX - 1, list);
-
-                    coordX += w;
-                    System.out.println("coordX " + coordX);
-                    //  nextX--;
-                    s--;
-
-                } else {
-
-                    addListLetter(nextX, new OptionsLetter(list.get(i).getLetter(), coordX, list.get(i).getY(), frame.getPanelList().getType(), frame.getPanelList().getFont(), frame.getPanelList().getSize(), w, h),
-                            list);
-
-                    deleteElement(nextX-1, list);
-
-                    coordX += w;
-                    s--;
-
-                }
+            if(number == two && ((list.get(i).getX())>=listRectangle.get(nextY).getX())) {
+                nextX++;
             }
         }
-    }
 
+        for (int i = 0; i < list.size(); i++) {
 
+            if ((list.get(i).getX()) >= listRectangle.get(nextY).getX() && listRectangle.get(nextY).getSize() > zero) {
 
+                w = fm.stringWidth(list.get(i).getLetter());
+                h = fm.getHeight();
 
-    public void setMaxHeight(int max)
-    {
-        this.max = max;
-    }
+                addListLetter(nextX, new OptionsLetter(list.get(i).getLetter(), coordX, list.get(i).getY(),
+                                frame.getPanelList().getType(), frame.getPanelList().getFont(), frame.getPanelList().getSize(), w, h),
+                        list);
 
-    public int getMaxHeight()
-    {
-        return max;
+                deleteElement(nextX - one, list);
+
+                coordX += w;
+                nextX--;
+                s--;
+                listRectangle.get(nextY).setSize(s);
+            }
+        }
+        return coordX;
     }
 
     public int getMaxHeightList(ArrayList<OptionsLetter> list)
@@ -233,18 +194,6 @@ public class Controller {
         return max;
     }
 
-    public int getMinHeightList(ArrayList<OptionsLetter> list)
-    {
-        int min = list.get(0).getHeight();
-        for(int i = 0; i < list.size(); i++)
-        {
-            if(min < list.get(i).getHeight())
-                min = list.get(i).getHeight();
-        }
-
-        return min;
-    }
-
     public OptionsLetter getPositionXUp(int nextY, int carriageX)
     {
         int min = carriageX-getListArrayList().get(nextY).get(0).getX();
@@ -255,15 +204,10 @@ public class Controller {
                 if((carriageX-getListArrayList().get(nextY).get(i).getX())<min) {
 
                     min = carriageX - getListArrayList().get(nextY).get(i).getX();
-                    if(min>=0 ) {
-                        element = getListArrayList().get(nextY).get(i-1);
-
-
-
-                        //System.out.println(getListArrayList().get(nextY).get(i-1).getLetter());
+                    if(min >= zero) {
+                        element = getListArrayList().get(nextY).get(i - one);
                     }
                 }
-
         }
         return element;
     }
@@ -278,8 +222,8 @@ public class Controller {
             if((getListArrayList().get(nextY).get(i).getX()-carriageX)>min) {
 
                 min = getListArrayList().get(nextY).get(i).getX() - carriageX;
-                if(min<=0 ) {
-                    element = getListArrayList().get(nextY).get(i-1);
+                if(min <= zero ) {
+                    element = getListArrayList().get(nextY).get(i - one);
                 }
             }
 
@@ -287,22 +231,10 @@ public class Controller {
         return element;
     }
 
-    public int getCoordXList(ArrayList<OptionsLetter> list)
-    {
-        return list.get(list.size()-1).getX()+list.get(list.size()-1).getWidth();
-    }
-
-    public int getCoordYList(ArrayList<OptionsLetter> list)
-    {
-        return list.get(list.size()-1).getY();
-    }
-
-
     public void deleteElement(int next,ArrayList<OptionsLetter> listLeters)
     {
-
         for(int i = 0; i < next; i++)
-            listLeters.get(listLeters.size()-1-i).setX(listLeters.get(listLeters.size()-1-i).getX()-listLeters.get(listLeters.size()-1-next).getWidth());
+            listLeters.get(listLeters.size()-1-i).setX(listLeters.get(listLeters.size()-one-i).getX()-listLeters.get(listLeters.size()-one-next).getWidth());
 
         listLeters.remove(listLeters.size()-1-next);
     }
@@ -313,33 +245,45 @@ public class Controller {
         {
             ArrayList<OptionsLetter> list = getListArrayList().get(i);
 
-
             for(int j = 0; j < list.size(); j++)
             {
                 list.get(j).setY(getElementArrayList(i - 1).get(0).getY() + getElementArrayList(i).get(0).getHeight());
-
-
             }
         }
-        //arrayLists.remove(arrayLists.get(nextY));
-
     }
 
     public void addLetters(int nextX, int nextY, int coordX, int coordY, ArrayList<ArrayList<OptionsLetter>> arrayLists)
     {
-        ArrayList<OptionsLetter> listLetters = arrayLists.get(nextY+1);
-        for(int i = nextX-1; i>=0; i--)
+        ArrayList<OptionsLetter> listLetters = arrayLists.get(nextY+one);
+        for(int i = nextX-1; i >= 0; i--)
         {
             arrayLists.get(nextY).add(new OptionsLetter(listLetters.get(listLetters.size()-1-i).getLetter(),coordX,coordY,
-                    listLetters.get(listLetters.size()-1-i).getTypeFont(),listLetters.get(listLetters.size()-1-i).getFont(),
-                    listLetters.get(listLetters.size()-1-i).getSize(),listLetters.get(listLetters.size()-1-i).getWidth(),listLetters.get(listLetters.size()-1-i).getHeight()));
-            coordX += arrayLists.get(nextY).get(arrayLists.get(nextY).size()-1).getWidth();
+                    listLetters.get(listLetters.size()-one-i).getTypeFont(),listLetters.get(listLetters.size()-one-i).getFont(),
+                    listLetters.get(listLetters.size()-one-i).getSize(),listLetters.get(listLetters.size()-one-i).getWidth(),listLetters.get(listLetters.size()-one-i).getHeight()));
+            coordX += arrayLists.get(nextY).get(arrayLists.get(nextY).size()-one).getWidth();
         }
+    }
 
+    public Dimension getMaxLength(ArrayList<ArrayList<OptionsLetter>> arrayLists) {
 
-       // listLeters.remove(listLeters.get(listLeters.size()-1-i));
+        Dimension dimension = new Dimension(zero,zero);
 
+        for (int i = 0; i < arrayLists.size(); i++) {
+            ArrayList<OptionsLetter> list = getListArrayList().get(i);
 
+            int maxX = zero;
+            int maxY = zero;
+
+            for (int j = 0; j < list.size(); j++) {
+                maxX = list.get(j).getX();
+                maxY = list.get(j).getY();
+            }
+            if (maxX > dimension.getWidth())
+                dimension.setSize(maxX,dimension.getHeight());
+            if (maxY > dimension.getHeight())
+                dimension.setSize(dimension.getWidth(),maxY);
+        }
+        return dimension;
     }
 
     public ArrayList<OptionsLetter> newLine(int coordX, int coordY, int nextX, ArrayList<OptionsLetter> listLeters, MyFrame frame)
@@ -347,38 +291,17 @@ public class Controller {
 
         ArrayList<OptionsLetter> newListLeters = new ArrayList<>();
 
-        /*newListLeters.add(new OptionsLetter("",coordX,coordY,frame.getPanelList().getType(),
-                frame.getPanelList().getFont(),frame.getPanelList().getSize(),0,getHeightLetter()));*/
-
         for(int i = nextX-1; i >= 0; i--)
         {
-            newListLeters.add(new OptionsLetter(listLeters.get(listLeters.size()-1-i).getLetter(),coordX,coordY,
-                    listLeters.get(listLeters.size()-1-i).getTypeFont(),listLeters.get(listLeters.size()-1-i).getFont(),
-                    listLeters.get(listLeters.size()-1-i).getSize(),listLeters.get(listLeters.size()-1-i).getWidth(),listLeters.get(listLeters.size()-1-i).getHeight()));
-            coordX += newListLeters.get(newListLeters.size()-1).getWidth();
-           // newListLeters.add(listLeters.get(listLeters.size()-1-i));
-            listLeters.remove(listLeters.get(listLeters.size()-1-i));
+            newListLeters.add(new OptionsLetter(listLeters.get(listLeters.size()-one-i).getLetter(),coordX,coordY,
+                    listLeters.get(listLeters.size()-one-i).getTypeFont(),listLeters.get(listLeters.size()-one-i).getFont(),
+                    listLeters.get(listLeters.size()-one-i).getSize(),listLeters.get(listLeters.size()-one-i).getWidth(),listLeters.get(listLeters.size()-one-i).getHeight()));
+            coordX += newListLeters.get(newListLeters.size()-one).getWidth();
+            listLeters.remove(listLeters.get(listLeters.size()-one-i));
         }
 
         return newListLeters;
     }
-
-    public void newSize(int height, int nextY, ArrayList<ArrayList<OptionsLetter>> arrayLists)
-    {
-        int s = 0;
-        for(int i = nextY; i < arrayLists.size(); i++) {
-            s++;
-            ArrayList<OptionsLetter> list = arrayLists.get(i);
-
-            if (s <= 1) {
-                for (int j = 0; j < list.size(); j++)
-                    list.get(j).setY(getElementArrayList(i - 1).get(0).getY() + height);
-            } else
-                for (s = 0; s < list.size(); s++)
-                    list.get(s).setY(getElementArrayList(i - 1).get(0).getY() + getElementArrayList(i).get(0).getHeight());
-        }
-    }
-
 
     public void changeParametrs(int nextY, ArrayList<ArrayList<OptionsLetter>> arrayLists)
     {
@@ -386,11 +309,9 @@ public class Controller {
         {
             ArrayList<OptionsLetter> list = getListArrayList().get(i);
 
-
             for(int j = 0; j < list.size(); j++)
             {
-                list.get(j).setY(getElementArrayList(i-1).get(0).getY() + getMaxHeightList(getElementArrayList(i)));
-                System.out.println("list.get(j).getY2 "+list.get(j).getY());
+                list.get(j).setY(getElementArrayList(i - one).get(0).getY() + getMaxHeightList(getElementArrayList(i)));
             }
         }
     }
@@ -412,107 +333,5 @@ public class Controller {
                 list.remove(list.get(i));
         }
     }
-
-
-    /*
-    public void getSelection(ArrayList<OptionsRectangle> listRectangle, ArrayList<ArrayList<OptionsLetter>> arrayLists, MyFrame frame, FontMetrics fm, int coordX, int nextX, int nextY)
-    {
-        int w =0, h = 0;
-
-        //coordX+=getElementArrayList(nextY).get(nextX).getWidth();
-
-        for(int i = 0; i < arrayLists.size(); i++)
-        {
-            ArrayList<OptionsLetter> list = getListArrayList().get(i);
-
-            if(listRectangle.get(i).getX()!=0) {
-
-                for (int j = 0; j < list.size(); j++){
-
-
-                    if(list.get(j).getX()>=listRectangle.get(i).getX() && (list.get(j).getX()<=(listRectangle.get(i).getX()+listRectangle.get(i).getWidth())))
-                    {
-
-                        nextX--;
-
-                        w = fm.stringWidth(list.get(j).getLetter());
-                        h = fm.getHeight();
-
-                        System.out.println("coordX "+coordX+" carrageX "+list.get(j).getX()+" nextX "+nextX);
-
-                        addListLetter(nextX, new OptionsLetter(list.get(j).getLetter(),coordX,list.get(j).getY(),frame.getPanelList().getType(),frame.getPanelList().getFont(),frame.getPanelList().getSize(),w,h),
-                                getElementArrayList(nextY));
-                        getElementArrayList(nextY).remove(list.get(j+1));
-
-                        coordX+=w;
-
-
-
-                    }
-
-
-                }
-
-            }
-
-        }
-
-    }
-     */
-
-
-
-   /* public OptionsLetter get(int i)
-    {
-        return base.getList();
-    }
-
-    public ArrayList<OptionsLetter> getList()
-    {
-        return listLetter;
-    }
-
-    public ArrayList<OptionsLetter> getArrayList(int i)
-    {
-        return base.getArrayListObject(i);
-    }
-
-    public void addListLetter(int next, OptionsLetter letter)
-    {
-        base.addListLetter(next, letter);
-    }
-
-    public int sizeArrayList()
-    {
-        return base.sizeArrayList();
-    }
-
-    public int size()
-    {
-        return base.size();
-    }
-
-    public OptionsLetter get(int i)
-    {
-        return base.get(i);
-    }
-
-    public ArrayList<OptionsLetter> getList()
-    {
-        return base.getList();
-    }
-
-    public void deleteElement(int next)
-    {
-        base.deleteElement(next);
-    }
-
-    public void addArrayList(ArrayList<OptionsLetter> listletter)
-    {
-        base.addArrayList(listletter);
-    }*/
-
-
-
 
 }

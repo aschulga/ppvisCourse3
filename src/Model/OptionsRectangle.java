@@ -9,6 +9,7 @@ public class OptionsRectangle {
     private int width;
     private int height;
     private int positionY;
+    private int size;
 
     public OptionsRectangle(int x, int y, int width, int height, int positionY)
     {
@@ -19,24 +20,19 @@ public class OptionsRectangle {
         this.positionY = positionY;
     }
 
+    public void setSize(int size)
+    {
+        this.size = size;
+    }
+
+    public int getSize()
+    {
+        return size;
+    }
+
     public int getX()
     {
         return x;
-    }
-
-    public int getY()
-    {
-        return y;
-    }
-
-    public int getWidth()
-    {
-        return width;
-    }
-
-    public int getHeight()
-    {
-        return height;
     }
 
     public void setX(int x)
@@ -44,24 +40,29 @@ public class OptionsRectangle {
         this.x = x;
     }
 
+    public int getY()
+    {
+        return y;
+    }
+
     public void setY(int y)
     {
         this.y = y;
     }
 
-    public int getPositionY()
+    public int getWidth()
     {
-        return positionY;
-    }
-
-    public void setPositionY(int positionY)
-    {
-        this.positionY = positionY;
+        return width;
     }
 
     public void setWidth(int width)
     {
         this.width = width;
+    }
+
+    public int getHeight()
+    {
+        return height;
     }
 
     public void setHeight(int height)
