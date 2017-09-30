@@ -14,7 +14,7 @@ public class PanelList {
     private JComboBox comboBoxFont = new JComboBox();
     private Controller controller;
     private MyFrame frame;
-    private int zero = 0, one = 1, two = 2;
+    private int firstLine = 0, secondLine = 1, thirdLine = 2;
 
     public PanelList(Controller controller, MyFrame frame)
     {
@@ -55,11 +55,11 @@ public class PanelList {
 
     public int getFont() {
         if (comboBoxFont.getSelectedItem().toString() == "PLAIN")
-            return zero;
+            return firstLine;
         else if (comboBoxFont.getSelectedItem().toString() == "ITALIC")
-            return two;
+            return thirdLine;
         else
-            return one;
+            return secondLine;
     }
 
     public JComboBox getComboBoxSizeFont()

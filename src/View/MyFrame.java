@@ -37,11 +37,9 @@ public class MyFrame implements MouseWheelListener, MouseMotionListener, MouseLi
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-
         JPanel panel = new Paint(controller,MyFrame.this,panelList);
         panel.setPreferredSize(new Dimension(500,500));
         jsp = new JScrollPane(panel);
-
         jsp.addMouseWheelListener(this);
         jsp.addMouseMotionListener(this);
         jsp.addMouseListener(this);
